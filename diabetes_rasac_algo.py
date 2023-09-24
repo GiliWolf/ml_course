@@ -12,9 +12,12 @@ x = data[:,2].reshape(-1,1)
 # print(x)
 y = diabetes['target']
 # print(y)
-model = LinearRegression()
-model.fit(x,y)
-# print(model.coef_)
-# x_new = pd.Series(x.flatten())
-sns.regplot(x = x,y = y)
+
+
+ransac = RANSACRegressor()
+ransac.fit(x,y)
+in_values = ransac.inlier_mask_
+out_values = np.logical_not(in_values)
+plt.scatter(x[in_values], y[in_values], c = 'blue')
+plt.scatter(x[out_values], y[out_values], c = 'red')
 plt.show()
